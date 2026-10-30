@@ -32,3 +32,5 @@ This is an early release, not a production-ready product. Review dependency vers
 
 ## GitHub repository ruleset
 Import `.github/rulesets/public-default.json` from **Settings → Rules → Rulesets → New ruleset → Import a ruleset**. It applies to the default branch, requires pull requests with one approval and resolved review conversations, requires the `build` CI check, and prevents branch deletion and force pushes.
+
+The `build` CI check runs the unit tests with coverage, requires at least 80% coverage for statements, branches, functions, and lines, audits npm dependencies (blocking high and critical vulnerabilities), and builds the application. Coverage totals appear in the workflow logs, and HTML/LCOV reports are available as the `coverage-report` artifact. Because the check is required by the ruleset, any failure blocks merging.
