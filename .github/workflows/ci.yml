@@ -4,6 +4,19 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      failure_scenario:
+        description: "Optional CI failure scenario for testing the required check"
+        required: true
+        default: none
+        type: choice
+        options:
+          - none
+          - tests
+          - coverage
+          - audit
+          - build
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,4 +27,28 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Run unit tests with coverage
+        run: npm test -- --watch=false --coverage --coverage-reporters=text-summary --coverage-reporters=html --coverage-reporters=lcov
+      - name: Simulate unit test failure
+        if: ${{ inputs.failure_scenario == 'tests' }}
+        run: node .github/ci-failure-fixtures/tests.mjs
+      - name: Simulate coverage failure
+        if: ${{ inputs.failure_scenario == 'coverage' }}
+        run: node .github/ci-failure-fixtures/coverage.mjs
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          if-no-files-found: ignore
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+      - name: Simulate dependency audit failure
+        if: ${{ inputs.failure_scenario == 'audit' }}
+        run: node .github/ci-failure-fixtures/audit.mjs
+      - name: Build application
+        run: npm run build
+      - name: Simulate build failure
+        if: ${{ inputs.failure_scenario == 'build' }}
+        run: node .github/ci-failure-fixtures/build.mjs

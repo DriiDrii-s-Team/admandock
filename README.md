@@ -32,3 +32,9 @@ This is an early release, not a production-ready product. Review dependency vers
 
 ## GitHub repository ruleset
 Import `.github/rulesets/public-default.json` from **Settings → Rules → Rulesets → New ruleset → Import a ruleset**. It applies to the default branch, requires pull requests with one approval and resolved review conversations, requires the `build` CI check, and prevents branch deletion and force pushes.
+
+The `build` CI check runs the unit tests with coverage, requires at least 80% coverage for statements, branches, functions, and lines, audits npm dependencies (blocking high and critical vulnerabilities), and builds the application. Coverage totals appear in the workflow logs, and HTML/LCOV reports are available as the `coverage-report` artifact. Because the check is required by the ruleset, any failure blocks merging.
+
+To test the required CI gate without affecting normal pushes or pull requests, run the workflow manually from GitHub Actions and choose a `failure_scenario` (`tests`, `coverage`, `audit`, or `build`). Choose `none` for a normal run. These scenarios intentionally fail after the corresponding real check passes; they do not simulate actual test, coverage, audit, or build errors.
+
+To remove the temporary failure scenarios, first choose `none` for any manual run. Then remove the four `Simulate ... failure` steps and the `workflow_dispatch` input from `.github/workflows/ci.yml`, and finally delete `.github/ci-failure-fixtures/`. The fixtures correspond to pipeline order: tests, coverage, audit, then build.

@@ -40,7 +40,15 @@
         },
         "test": {
           "builder": "@angular/build:unit-test",
-          "options": {"tsConfig": "tsconfig.spec.json"}
+          "options": {
+            "tsConfig": "tsconfig.spec.json",
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
+          }
         }
       }
     }
