@@ -155,4 +155,43 @@ DEBUG Cache miss for key customer:42
     expect(filtered).toHaveLength(1);
     expect(service.summarize(entries)).toMatchObject({ total: 3, info: 1, warn: 1, error: 1 });
   });
+
+  it('handles empty input and detects formats with normalized confidence', () => {
+    const service = new LogAnalyzerService();
+
+    expect(service.detectFormat('  ')).toEqual({ format: 'unknown', confidence: 0 });
+    expect(service.parseLogs(' \n')).toEqual({
+      format: 'unknown',
+      confidence: 0,
+      entries: [],
+      errors: ['No log input available.']
+    });
+    expect(service.detectFormat('INFO Worker started').format).toBe('generic');
+  });
+
+  it('uses optional filters and timestamp bounds while summarizing every level', () => {
+    const service = new LogAnalyzerService();
+    const { entries } = service.parseLogs(`TRACE trace
+DEBUG debug
+INFO info
+WARN warn
+ERROR error
+FATAL fatal
+An unclassified message`);
+
+    expect(service.summarize(entries)).toEqual({
+      total: 7,
+      info: 1,
+      debug: 1,
+      warn: 1,
+      error: 1,
+      fatal: 1,
+      unknown: 2
+    });
+    expect(service.filterEntries(entries, {})).toHaveLength(7);
+    expect(service.filterEntries(entries, { from: '2026-10-30' })).toHaveLength(7);
+    expect(service.filterEntries(entries, { to: '2026-10-30' })).toHaveLength(7);
+    expect(service.filterEntries(entries, { search: '  TRACE  ' })).toHaveLength(1);
+    expect(service.filterEntries(entries, { logger: 'missing', exception: 'missing' })).toHaveLength(0);
+  });
 });
