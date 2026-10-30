@@ -28,3 +28,6 @@ Open http://localhost:4200
 
 ## Important
 This is an early release, not a production-ready product. Review dependency versions before deployment. Tool input is processed locally and is not persisted or transmitted by AdManDock.
+
+## GitHub repository ruleset
+Import `.github/rulesets/public-default.json` from **Settings → Rules → Rulesets → New ruleset → Import a ruleset**. It applies to the default branch, requires pull requests with one approval and resolved review conversations, requires the `build` CI check, and prevents branch deletion and force pushes.
