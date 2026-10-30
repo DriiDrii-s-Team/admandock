@@ -1,10 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { I18nService } from '../../../core/services/i18n.service';
 import { LogEntry, LogFilterState, LogSourceFormat } from '../models/log-entry.model';
 import { LogAnalyzerService } from '../services/log-analyzer.service';
 
 type LogSamplePreset = {
-  label: string;
+  labelKey: 'logSampleJava' | 'logSampleDotnet' | 'logSampleJson' | 'logSampleGeneric';
   content: string;
 };
 
@@ -83,31 +84,31 @@ type LogSamplePreset = {
 
       <div class="tool-page-heading">
         <div>
-          <div class="eyebrow">LOG ANALYZER</div>
-          <h1>Log Analyzer</h1>
-          <p>Inspect Java, .NET, JSON and generic logs locally in the browser.</p>
+          <div class="eyebrow">{{ i18n.t('logEyebrow') }}</div>
+          <h1>{{ i18n.t('logTitle') }}</h1>
+          <p>{{ i18n.t('logDescription') }}</p>
         </div>
-        <span class="local-badge"><span class="status-dot"></span> Local processing</span>
+        <span class="local-badge"><span class="status-dot"></span> {{ i18n.t('logLocalProcessing') }}</span>
       </div>
 
       <section class="log-import-panel">
         <div class="log-toolbar">
-          <button class="primary-button" type="button" (click)="openFilePicker()">Import file</button>
-          <button class="secondary-button" type="button" [disabled]="!sampleText().trim()" (click)="analyzeSample()">Analyze sample</button>
-          <button class="secondary-button" type="button" (click)="toggleHelp()">{{ showHelp() ? 'Hide help' : 'Help' }}</button>
-          <button class="secondary-button" type="button" [disabled]="!entries().length" (click)="clearAll()">Clear</button>
+          <button class="primary-button" type="button" (click)="openFilePicker()">{{ i18n.t('logImportFile') }}</button>
+          <button class="secondary-button" type="button" [disabled]="!sampleText().trim()" (click)="analyzeSample()">{{ i18n.t('logAnalyzeSample') }}</button>
+          <button class="secondary-button" type="button" (click)="toggleHelp()">{{ showHelp() ? i18n.t('logHideHelp') : i18n.t('logHelp') }}</button>
+          <button class="secondary-button" type="button" [disabled]="!entries().length" (click)="clearAll()">{{ i18n.t('logClear') }}</button>
           <input id="log-file-input" class="hidden-file-input" type="file" accept=".log,.txt,.json,.ndjson" (change)="handleFileChange($event)" />
         </div>
 
         <div class="log-upload-row">
           <div class="log-file-meta">
-            <strong>{{ fileName() }}</strong>
+            <strong>{{ fileName() || i18n.t('logNoFile') }}</strong>
             @if (fileSize() > 0) {
               <span>{{ formatBytes(fileSize()) }}</span>
             }
           </div>
           @if (sourceFormat() !== 'unknown') {
-            <span>Detected: {{ sourceFormat() }} ({{ confidence() * 100 | number: '1.0-0' }}%)</span>
+            <span>{{ i18n.t('logDetected') }} : {{ sourceFormat() }} ({{ confidence() * 100 | number: '1.0-0' }} %)</span>
           }
         </div>
       </section>
@@ -115,72 +116,72 @@ type LogSamplePreset = {
       @if (showHelp()) {
         <section class="log-help-panel" aria-live="polite">
           <div class="help-header">
-            <h2>Developer help</h2>
-            <span class="local-badge"><span class="status-dot"></span> Local only</span>
+            <h2>{{ i18n.t('logHelpTitle') }}</h2>
+            <span class="local-badge"><span class="status-dot"></span> {{ i18n.t('logLocalOnly') }}</span>
           </div>
 
           <div class="help-grid">
             <div class="help-card">
-              <h3>Supported formats</h3>
+              <h3>{{ i18n.t('logSupportedFormats') }}</h3>
               <ul>
-                <li>Java / Spring Boot log lines</li>
-                <li>.NET / ASP.NET Core console logs</li>
-                <li>Structured JSON and NDJSON events</li>
-                <li>Generic plain-text log entries</li>
+                <li>{{ i18n.t('logJavaFormat') }}</li>
+                <li>{{ i18n.t('logDotnetFormat') }}</li>
+                <li>{{ i18n.t('logJsonFormat') }}</li>
+                <li>{{ i18n.t('logGenericFormat') }}</li>
               </ul>
             </div>
 
             <div class="help-card">
-              <h3>Known limits</h3>
+              <h3>{{ i18n.t('logKnownLimits') }}</h3>
               <ul>
-                <li>Detection remains heuristic, not authoritative.</li>
-                <li>Very custom formats may be classified as generic.</li>
-                <li>Multiline stack traces are attached to the nearest prior entry.</li>
+                <li>{{ i18n.t('logHeuristicDetection') }}</li>
+                <li>{{ i18n.t('logCustomFormats') }}</li>
+                <li>{{ i18n.t('logMultilineLimit') }}</li>
               </ul>
             </div>
 
             <div class="help-card">
-              <h3>Detection rules</h3>
+              <h3>{{ i18n.t('logDetectionRules') }}</h3>
               <ul>
-                <li>Patterns are matched on timestamps, levels and known logger fields.</li>
-                <li>JSON is detected via object keys such as <code>timestamp</code> or <code>level</code>.</li>
-                <li>Confidence is reported as a percentage alongside the detected format.</li>
+                <li>{{ i18n.t('logPatternDetection') }}</li>
+                <li>{{ i18n.t('logJsonDetection') }} (<code>timestamp</code>, <code>level</code>).</li>
+                <li>{{ i18n.t('logConfidence') }}</li>
               </ul>
             </div>
 
             <div class="help-card">
-              <h3>Extracted information</h3>
+              <h3>{{ i18n.t('logExtractedInfo') }}</h3>
               <ul>
-                <li>Timestamp and normalized level</li>
-                <li>Logger name and thread when present</li>
-                <li>Message, exception and stack trace</li>
-                <li>Original raw line content</li>
+                <li>{{ i18n.t('logTimestampAndLevel') }}</li>
+                <li>{{ i18n.t('logLoggerAndThread') }}</li>
+                <li>{{ i18n.t('logMessageExceptionStack') }}</li>
+                <li>{{ i18n.t('logOriginalContent') }}</li>
               </ul>
             </div>
 
             <div class="help-card">
-              <h3>Local behavior</h3>
+              <h3>{{ i18n.t('logLocalBehavior') }}</h3>
               <ul>
-                <li>No data leaves the browser.</li>
-                <li>No log content is stored automatically.</li>
-                <li>All parsing and filtering run client-side.</li>
+                <li>{{ i18n.t('logNoDataLeaves') }}</li>
+                <li>{{ i18n.t('logNoAutoStorage') }}</li>
+                <li>{{ i18n.t('logClientSide') }}</li>
               </ul>
             </div>
 
             <div class="help-card">
-              <h3>Unrecognized formats</h3>
+              <h3>{{ i18n.t('logUnrecognized') }}</h3>
               <ul>
-                <li>They are still shown as entries, but with <code>UNKNOWN</code> level.</li>
-                <li>Generic parsing preserves the original text as faithfully as possible.</li>
+                <li>{{ i18n.t('logUnrecognizedShown') }} (<code>UNKNOWN</code>).</li>
+                <li>{{ i18n.t('logGenericPreserves') }}</li>
               </ul>
             </div>
           </div>
 
           <div class="help-card">
-            <h3>Try sample logs</h3>
+            <h3>{{ i18n.t('logTrySamples') }}</h3>
             <div class="preset-list">
-              @for (example of presetExamples; track example.label) {
-                <button class="preset-button" type="button" (click)="applyPreset(example)">{{ example.label }}</button>
+              @for (example of presetExamples; track example.labelKey) {
+                <button class="preset-button" type="button" (click)="applyPreset(example)">{{ i18n.t(example.labelKey) }}</button>
               }
             </div>
           </div>
@@ -189,15 +190,15 @@ type LogSamplePreset = {
 
       <section class="log-analysis">
         <div class="log-panel">
-          <h2>Sample log</h2>
+          <h2>{{ i18n.t('logSampleLog') }}</h2>
           <textarea class="log-sample-box" [value]="sampleText()" (input)="sampleText.set($any($event.target).value)"></textarea>
         </div>
 
         <div class="log-panel">
-          <h2>Overview</h2>
+          <h2>{{ i18n.t('logOverview') }}</h2>
           <div class="log-summary">
             <div class="log-metric total">
-              <div class="label">Total</div>
+              <div class="label">{{ i18n.t('logTotal') }}</div>
               <div class="value">{{ stats()['total'] }}</div>
             </div>
             <div class="log-metric debug">
@@ -221,7 +222,7 @@ type LogSamplePreset = {
               <div class="value">{{ stats()['fatal'] }}</div>
             </div>
             <div class="log-metric unknown">
-              <div class="label">Unknown</div>
+              <div class="label">{{ i18n.t('logUnknown') }}</div>
               <div class="value">{{ stats()['unknown'] }}</div>
             </div>
           </div>
@@ -230,10 +231,10 @@ type LogSamplePreset = {
 
       <section class="log-layout">
         <div class="log-list-panel">
-          <h2>Entries</h2>
+          <h2>{{ i18n.t('logEntries') }}</h2>
           <div class="filters">
             <select [value]="filters().level" (change)="updateFilter('level', $any($event.target).value)">
-              <option value="ALL">All levels</option>
+              <option value="ALL">{{ i18n.t('logAllLevels') }}</option>
               <option value="TRACE">TRACE</option>
               <option value="DEBUG">DEBUG</option>
               <option value="INFO">INFO</option>
@@ -242,16 +243,16 @@ type LogSamplePreset = {
               <option value="FATAL">FATAL</option>
               <option value="UNKNOWN">UNKNOWN</option>
             </select>
-            <input type="search" placeholder="Search logs" [value]="filters().search" (input)="updateFilter('search', $any($event.target).value)" />
-            <input type="text" placeholder="Logger filter" [value]="filters().logger" (input)="updateFilter('logger', $any($event.target).value)" />
-            <input type="text" placeholder="Exception contains" [value]="filters().exception" (input)="updateFilter('exception', $any($event.target).value)" />
+            <input type="search" [placeholder]="i18n.t('logSearch')" [attr.aria-label]="i18n.t('logSearch')" [value]="filters().search" (input)="updateFilter('search', $any($event.target).value)" />
+            <input type="text" [placeholder]="i18n.t('logLoggerFilter')" [attr.aria-label]="i18n.t('logLoggerFilter')" [value]="filters().logger" (input)="updateFilter('logger', $any($event.target).value)" />
+            <input type="text" [placeholder]="i18n.t('logExceptionFilter')" [attr.aria-label]="i18n.t('logExceptionFilter')" [value]="filters().exception" (input)="updateFilter('exception', $any($event.target).value)" />
             <div style="display: grid; grid-template-columns: repeat(2, minmax(120px,1fr)); gap: 0.75rem;">
-              <input type="date" [value]="filters().from" (input)="updateFilter('from', $any($event.target).value)" />
-              <input type="date" [value]="filters().to" (input)="updateFilter('to', $any($event.target).value)" />
+              <input type="date" [attr.aria-label]="i18n.t('logFromDate')" [value]="filters().from" (input)="updateFilter('from', $any($event.target).value)" />
+              <input type="date" [attr.aria-label]="i18n.t('logToDate')" [value]="filters().to" (input)="updateFilter('to', $any($event.target).value)" />
             </div>
           </div>
 
-          <div class="result-count">{{ visibleEntries().length }} matching entries</div>
+          <div class="result-count">{{ visibleEntries().length }} {{ i18n.t('logMatchingEntries') }}</div>
 
           @if (visibleEntries().length) {
             <div class="log-entry-list">
@@ -259,42 +260,42 @@ type LogSamplePreset = {
                 <article class="log-entry-item" [class.active]="selectedEntry() !== null && selectedEntry()!.id === entry.id" (click)="selectEntry(entry.id)">
                   <div class="log-entry-header">
                     <span class="level-pill {{ entry.level.toLowerCase() }}">{{ entry.level }}</span>
-                    <span>{{ entry.timestamp ? formatDate(entry.timestamp) : 'No date' }}</span>
+                    <span>{{ entry.timestamp ? formatDate(entry.timestamp) : i18n.t('logNoDate') }}</span>
                   </div>
-                  <div class="entry-logger">{{ entry.logger ?? 'Unknown logger' }}</div>
+                  <div class="entry-logger">{{ entry.logger ?? i18n.t('logUnknownLogger') }}</div>
                   <div class="entry-message">{{ entry.message }}</div>
                 </article>
               }
             </div>
           } @else {
-            <div class="empty-state">No log entries match the current filters.</div>
+            <div class="empty-state">{{ i18n.t('logNoMatches') }}</div>
           }
         </div>
 
         <div class="log-details">
           @if (selectedEntry(); as entry) {
-            <h3>Entry details</h3>
+            <h3>{{ i18n.t('logEntryDetails') }}</h3>
             <div class="detail-grid">
-              <div class="detail-item"><small>Message</small><div class="detail-value">{{ entry.message }}</div></div>
-              <div class="detail-item"><small>Level</small><div class="detail-value">{{ entry.level }}</div></div>
-              <div class="detail-item"><small>Date</small><div class="detail-value">{{ entry.timestamp ? formatDate(entry.timestamp) : 'Not available' }}</div></div>
-              <div class="detail-item"><small>Logger</small><div class="detail-value">{{ entry.logger ?? 'N/A' }}</div></div>
-              <div class="detail-item"><small>Thread</small><div class="detail-value">{{ entry.thread ?? 'N/A' }}</div></div>
-              <div class="detail-item"><small>Source</small><div class="detail-value">{{ entry.sourceFormat }}</div></div>
+              <div class="detail-item"><small>{{ i18n.t('logMessage') }}</small><div class="detail-value">{{ entry.message }}</div></div>
+              <div class="detail-item"><small>{{ i18n.t('logLevel') }}</small><div class="detail-value">{{ entry.level }}</div></div>
+              <div class="detail-item"><small>{{ i18n.t('logDate') }}</small><div class="detail-value">{{ entry.timestamp ? formatDate(entry.timestamp) : i18n.t('logNotAvailable') }}</div></div>
+              <div class="detail-item"><small>{{ i18n.t('logLogger') }}</small><div class="detail-value">{{ entry.logger ?? i18n.t('logMissingValue') }}</div></div>
+              <div class="detail-item"><small>{{ i18n.t('logThread') }}</small><div class="detail-value">{{ entry.thread ?? i18n.t('logMissingValue') }}</div></div>
+              <div class="detail-item"><small>{{ i18n.t('logSource') }}</small><div class="detail-value">{{ entry.sourceFormat }}</div></div>
               @if (entry.exception) {
-                <div class="detail-item" style="grid-column: 1 / -1;"><small>Exception</small><div class="detail-value">{{ entry.exception }}</div></div>
+                <div class="detail-item" style="grid-column: 1 / -1;"><small>{{ i18n.t('logException') }}</small><div class="detail-value">{{ entry.exception }}</div></div>
               }
               @if (entry.stackTrace?.length) {
-                <div class="detail-item" style="grid-column: 1 / -1;"><small>Stack trace</small><div class="detail-value">{{ entry.stackTrace?.join('\n') ?? 'N/A' }}</div></div>
+                <div class="detail-item" style="grid-column: 1 / -1;"><small>{{ i18n.t('logStackTrace') }}</small><div class="detail-value">{{ entry.stackTrace?.join('\n') ?? 'N/A' }}</div></div>
               }
-              <div class="detail-item" style="grid-column: 1 / -1;"><small>Raw</small><div class="detail-value">{{ entry.raw }}</div></div>
+              <div class="detail-item" style="grid-column: 1 / -1;"><small>{{ i18n.t('logRaw') }}</small><div class="detail-value">{{ entry.raw }}</div></div>
             </div>
             <div class="detail-actions">
-              <button class="secondary-button" type="button" (click)="copyText(entry.message)">Copy message</button>
-              <button class="secondary-button" type="button" (click)="copyText(entry.stackTrace?.join('\n') ?? '')">Copy stack trace</button>
+              <button class="secondary-button" type="button" (click)="copyText(entry.message)">{{ i18n.t('logCopyMessage') }}</button>
+              <button class="secondary-button" type="button" (click)="copyText(entry.stackTrace?.join('\n') ?? '')">{{ i18n.t('logCopyStackTrace') }}</button>
             </div>
           } @else {
-            <div class="empty-state">Select an entry to inspect its details.</div>
+            <div class="empty-state">{{ i18n.t('logSelectEntry') }}</div>
           }
         </div>
       </section>
@@ -303,28 +304,29 @@ type LogSamplePreset = {
 })
 
 export class LogAnalyzerPageComponent {
+  readonly i18n = inject(I18nService);
   private readonly service = inject(LogAnalyzerService);
   readonly sampleText = signal('');
   readonly showHelp = signal(false);
   readonly presetExamples: LogSamplePreset[] = [
     {
-      label: 'Java / Spring',
+      labelKey: 'logSampleJava',
       content: `2026-10-30 14:32:12.123 INFO 12345 --- [http-nio-8080-exec-1] com.example.UserService : User authenticated\n2026-10-30 14:32:13.456 WARN 12345 --- [http-nio-8080-exec-1] com.example.CacheService : Cache warm-up took 650ms\n2026-10-30 14:32:14.890 ERROR 12345 --- [http-nio-8080-exec-1] com.example.OrderService : Failed to process order 42\njava.lang.NullPointerException: Cannot invoke "String.trim()" because "value" is null\n\tat com.example.OrderService.process(OrderService.java:82)\n\tat com.example.OrderController.handle(OrderController.java:56)\n\tat org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1080)`
     },
     {
-      label: '.NET',
+      labelKey: 'logSampleDotnet',
       content: `2026-10-30 14:32:12.1234 info: MyApp.Services.UserService[1001]\nUser authenticated successfully\n2026-10-30 14:32:13.4567 warn: MyApp.Services.CacheService[2002]\nCache warm-up exceeded expected duration\n2026-10-30 14:32:14.8901 error: MyApp.Services.OrderService[3003]\nOrder processing failed for customer 42\nSystem.NullReferenceException: Object reference not set to an instance of an object\n   at MyApp.Services.OrderService.ProcessOrder(...)` 
     },
     {
-      label: 'JSON / NDJSON',
+      labelKey: 'logSampleJson',
       content: `{"timestamp":"2026-10-30T14:32:12.123Z","level":"INFO","logger":"app.api","message":"Request completed","thread":"http-nio-8080-exec-1"}\n{"timestamp":"2026-10-30T14:32:15.456Z","level":"ERROR","logger":"app.payments","message":"Payment processing failed","exception":"TimeoutException","stackTrace":["at app.payments.Service.process(Service.java:42)","at app.payments.Controller.handle(Controller.java:18)"]}`
     },
     {
-      label: 'Generic',
+      labelKey: 'logSampleGeneric',
       content: `2026-10-30T14:32:12Z INFO Booting application\n2026-10-30T14:32:17Z WARN Retrying connection to primary DB\n2026-10-30T14:32:20Z ERROR Failed to initialize broker connection`
     }
   ];
-  readonly fileName = signal('No file selected');
+  readonly fileName = signal('');
   readonly fileSize = signal(0);
   readonly entries = signal<LogEntry[]>([]);
   readonly sourceFormat = signal<LogSourceFormat>('unknown');
@@ -427,7 +429,7 @@ export class LogAnalyzerPageComponent {
   clearAll(): void {
     this.sampleText.set('');
     this.entries.set([]);
-    this.fileName.set('No file selected');
+    this.fileName.set('');
     this.fileSize.set(0);
     this.sourceFormat.set('unknown');
     this.confidence.set(0);
@@ -451,7 +453,7 @@ export class LogAnalyzerPageComponent {
     if (Number.isNaN(date.getTime())) {
       return value;
     }
-    return date.toLocaleString();
+    return date.toLocaleString(this.i18n.language() === 'fr' ? 'fr-FR' : 'en-US');
   }
 
   formatBytes(bytes: number): string {
