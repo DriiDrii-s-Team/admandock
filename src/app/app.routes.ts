@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
 export const APP_ROUTES: Routes = [
-  { path: '', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent), title: 'Dashboard · DebugDock' },
-  { path: 'data/json', loadComponent: () => import('./features/tool-placeholder/tool-placeholder.component').then(m => m.ToolPlaceholderComponent), data: { toolId: 'json', title: 'JSON Explorer', description: 'Format, validate, inspect and minify JSON.' } },
+  { path: '', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent), title: 'Dashboard · AdManDock' },
+  { path: 'data/json', loadComponent: () => import('./features/json-explorer/json-explorer.component').then(m => m.JsonExplorerComponent), title: 'JSON Explorer · AdManDock' },
   { path: 'data/yaml', loadComponent: () => import('./features/tool-placeholder/tool-placeholder.component').then(m => m.ToolPlaceholderComponent), data: { toolId: 'yaml', title: 'YAML Tools', description: 'Format and validate YAML documents.' } },
   { path: 'data/xml', loadComponent: () => import('./features/tool-placeholder/tool-placeholder.component').then(m => m.ToolPlaceholderComponent), data: { toolId: 'xml', title: 'XML Tools', description: 'Format and inspect XML documents.' } },
   { path: 'diff/json', loadComponent: () => import('./features/tool-placeholder/tool-placeholder.component').then(m => m.ToolPlaceholderComponent), data: { toolId: 'json-diff', title: 'JSON Diff', description: 'Compare two JSON documents structurally.' } },
@@ -12,7 +12,7 @@ export const APP_ROUTES: Routes = [
   { path: 'security/jwt', loadComponent: () => import('./features/tool-placeholder/tool-placeholder.component').then(m => m.ToolPlaceholderComponent), data: { toolId: 'jwt', title: 'JWT Decoder', description: 'Decode token headers and claims locally.' } },
   { path: 'dev/regex', loadComponent: () => import('./features/tool-placeholder/tool-placeholder.component').then(m => m.ToolPlaceholderComponent), data: { toolId: 'regex', title: 'Regex Tester', description: 'Test regular expressions against sample text.' } },
   { path: 'dev/timestamp', loadComponent: () => import('./features/tool-placeholder/tool-placeholder.component').then(m => m.ToolPlaceholderComponent), data: { toolId: 'timestamp', title: 'Timestamp Converter', description: 'Convert Unix timestamps and date formats.' } },
-  { path: 'workspace', loadComponent: () => import('./features/workspace/workspace.component').then(m => m.WorkspaceComponent), title: 'Workspace · DebugDock' },
-  { path: 'settings', loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent), title: 'Settings · DebugDock' },
+  { path: 'workspace', loadComponent: () => import('./features/workspace/workspace.component').then(m => m.WorkspaceComponent), title: 'Workspace · AdManDock' },
+  { path: 'settings', loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent), title: 'Settings · AdManDock' },
   { path: '**', redirectTo: '' }
 ];

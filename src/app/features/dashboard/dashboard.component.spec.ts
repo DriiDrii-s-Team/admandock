@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { TOOLS } from '../../core/data/tools';
 
-describe('DebugDock tool catalog', () => {
+describe('AdManDock tool catalog', () => {
   it('exposes unique tool identifiers and routes', () => {
     expect(new Set(TOOLS.map(tool => tool.id)).size).toBe(TOOLS.length);
     expect(new Set(TOOLS.map(tool => tool.route)).size).toBe(TOOLS.length);

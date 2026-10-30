@@ -1,4 +1,4 @@
-# AdManDock — Angular technical foundation
+# AdManDock — Local-first developer tools
 
 A private, local-first developer workspace scaffold.
 
@@ -17,13 +17,14 @@ Open http://localhost:4200
 ## Included
 - Standalone Angular application
 - Lazy-loaded feature routes
-- Responsive application shell and sidebar
+- Responsive application shell, sidebar and visual design tokens
 - Light/dark/system theme preference
 - English/French language switch
 - Dashboard and placeholder tool pages
-- Reusable tool page, editor and copy button
+- Reusable editor and copy button
+- JSON Explorer for local validation, formatting and minification
 - Dexie-based local preferences/favorites/recent tools persistence
-- Vitest-ready unit test setup (Angular CLI builder compatibility should be verified)
+- Vitest unit tests for the core tool catalog and JSON processing
 
 ## Important
-This is a source scaffold, not a production-ready release. Review dependency versions and Angular CLI test builder compatibility before deployment. No user content is persisted or transmitted by this scaffold.
+This is an early release, not a production-ready product. Review dependency versions before deployment. Tool input is processed locally and is not persisted or transmitted by AdManDock.

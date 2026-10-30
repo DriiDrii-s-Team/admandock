@@ -11,7 +11,7 @@ import { I18nService } from '../services/i18n.service';
     <div class="app-shell">
       <aside class="sidebar">
         <a class="brand" routerLink="/">
-          <span class="brand-mark">⌘</span>
+          <span class="brand-mark" aria-hidden="true">{{ '{ }' }}</span>
           <span><strong>AdManDock</strong><small>Developer workspace</small></span>
         </a>
         <div class="side-label">{{ i18n.t('workspace') }}</div>
@@ -42,7 +42,7 @@ import { I18nService } from '../services/i18n.service';
       </aside>
       <main class="main">
         <header class="topbar">
-          <div class="mobile-brand"><span class="brand-mark">⌘</span><strong>AdManDock</strong></div>
+          <div class="mobile-brand"><span class="brand-mark" aria-hidden="true">{{ '{ }' }}</span><strong>AdManDock</strong></div>
           <div class="top-spacer"></div>
           <span class="privacy-pill"><span class="status-dot"></span>{{ i18n.t('local') }}</span>
           <button class="icon-button" aria-label="Toggle theme" (click)="toggleTheme()">◐</button>

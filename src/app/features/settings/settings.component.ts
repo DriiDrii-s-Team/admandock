@@ -4,8 +4,8 @@ import { PreferencesService, ThemePreference, Language } from '../../core/servic
 @Component({
   standalone: true,
   template: `
-    <div class="eyebrow">PREFERENCES</div><h1>Settings</h1><p class="page-intro">Customize your DebugDock workspace.</p>
-    <section class="settings-card"><h2>Appearance</h2><p>Choose how DebugDock looks on this device.</p>
+    <div class="eyebrow">PREFERENCES</div><h1>Settings</h1><p class="page-intro">Customize your AdManDock workspace.</p>
+    <section class="settings-card"><h2>Appearance</h2><p>Choose how AdManDock looks on this device.</p>
       <div class="setting-row"><div><strong>Theme</strong><small>System follows your operating system preference.</small></div>
         <select [value]="preferences.theme()" (change)="setTheme($event)"><option value="dark">Dark</option><option value="light">Light</option><option value="system">System</option></select>
       </div>

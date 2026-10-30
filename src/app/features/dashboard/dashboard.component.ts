@@ -27,7 +27,7 @@ import { I18nService } from '../../core/services/i18n.service';
     </div>
     <div class="bottom-grid">
       <div class="panel"><div class="panel-title"><h3>Getting started</h3><span>01 / 03</span></div><p>Choose a tool from the workspace and paste or import your technical data. Processing happens locally in your browser.</p><a routerLink="/data/json" class="text-link">Try JSON Explorer →</a></div>
-      <div class="panel"><div class="panel-title"><h3>Privacy by design</h3><span class="secure-label">LOCAL FIRST</span></div><p>Your input is not sent to DebugDock servers. Avoid saving credentials or production secrets in browser storage.</p><a routerLink="/settings" class="text-link">Manage preferences →</a></div>
+      <div class="panel"><div class="panel-title"><h3>Privacy by design</h3><span class="secure-label">LOCAL FIRST</span></div><p>Your input is not sent to AdManDock servers. Avoid saving credentials or production secrets in browser storage.</p><a routerLink="/settings" class="text-link">Manage preferences →</a></div>
     </div>
   `
 })
