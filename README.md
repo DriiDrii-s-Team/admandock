@@ -23,6 +23,7 @@ Open http://localhost:4200
 - Dashboard and placeholder tool pages
 - Reusable editor and copy button
 - JSON Explorer for local validation, formatting and minification
+- JSON Diff for structural comparison of JSON documents
 - Dexie-based local preferences/favorites/recent tools persistence
 - Vitest unit tests for the core tool catalog and JSON processing
 

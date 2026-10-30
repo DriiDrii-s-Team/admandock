@@ -16,7 +16,13 @@ const messages = {
     jsonCopy: 'Copy output', jsonValid: 'Valid JSON', jsonInvalid: 'Invalid JSON',
     jsonEmpty: 'Enter JSON to get started.', jsonEmptyOutput: 'Formatted JSON will appear here.',
     jsonPrivacy: 'Your input is processed in this browser and is never uploaded.',
-    jsonErrorAt: 'Line', jsonColumn: 'column'
+    jsonErrorAt: 'Line', jsonColumn: 'column',
+    jsonDiffEyebrow: 'DIFF TOOL', jsonDiffDescription: 'Compare two JSON documents and inspect structural changes.',
+    jsonDiffLeft: 'Original JSON', jsonDiffRight: 'Updated JSON', jsonDiffResults: 'Differences',
+    jsonDiffPrompt: 'Enter valid JSON in both editors to compare them.',
+    jsonDiffIdentical: 'The documents are structurally identical.',
+    jsonDiffAdded: 'Added', jsonDiffRemoved: 'Removed', jsonDiffChanged: 'Changed',
+    jsonDiffBefore: 'Before', jsonDiffAfter: 'After', jsonDiffSwap: 'Swap'
   },
   fr: {
     dashboard: 'Tableau de bord', workspace: 'Espace de travail', settings: 'Paramètres',
@@ -32,7 +38,13 @@ const messages = {
     jsonCopy: 'Copier le résultat', jsonValid: 'JSON valide', jsonInvalid: 'JSON invalide',
     jsonEmpty: 'Saisissez du JSON pour commencer.', jsonEmptyOutput: 'Le JSON formaté apparaîtra ici.',
     jsonPrivacy: 'Votre saisie est traitée dans ce navigateur et n’est jamais envoyée.',
-    jsonErrorAt: 'Ligne', jsonColumn: 'colonne'
+    jsonErrorAt: 'Ligne', jsonColumn: 'colonne',
+    jsonDiffEyebrow: 'OUTIL DE COMPARAISON', jsonDiffDescription: 'Comparez deux documents JSON et inspectez leurs différences structurelles.',
+    jsonDiffLeft: 'JSON d’origine', jsonDiffRight: 'JSON modifié', jsonDiffResults: 'Différences',
+    jsonDiffPrompt: 'Saisissez un JSON valide dans chaque éditeur pour les comparer.',
+    jsonDiffIdentical: 'Les documents sont structurellement identiques.',
+    jsonDiffAdded: 'Ajoutés', jsonDiffRemoved: 'Supprimés', jsonDiffChanged: 'Modifiés',
+    jsonDiffBefore: 'Avant', jsonDiffAfter: 'Après', jsonDiffSwap: 'Inverser'
   }
 } as const;
 
