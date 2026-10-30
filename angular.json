@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "admandock": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "dd",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "tsConfig": "tsconfig.app.json",
+            "styles": ["src/styles.scss"],
+            "assets": [{"glob": "**/*", "input": "public"}]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {"type": "initial", "maximumWarning": "500kb", "maximumError": "1mb"},
+                {"type": "anyComponentStyle", "maximumWarning": "8kb", "maximumError": "16kb"}
+              ],
+              "outputHashing": "all"
+            },
+            "development": {"optimization": false, "extractLicenses": false, "sourceMap": true}
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {"buildTarget": "admandock:build:production"},
+            "development": {"buildTarget": "admandock:build:development"}
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {"tsConfig": "tsconfig.spec.json"}
+        }
+      }
+    }
+  }
+}
