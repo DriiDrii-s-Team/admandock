@@ -3,8 +3,8 @@ import { Injectable, computed, signal } from '@angular/core';
 export type ThemePreference = 'light' | 'dark' | 'system';
 export type Language = 'en' | 'fr';
 
-const THEME_KEY = 'debugdock.theme';
-const LANGUAGE_KEY = 'debugdock.language';
+const THEME_KEY = 'admandock.theme';
+const LANGUAGE_KEY = 'admandock.language';
 
 @Injectable({ providedIn: 'root' })
 export class PreferencesService {
