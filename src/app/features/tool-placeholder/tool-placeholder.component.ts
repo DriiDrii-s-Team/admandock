@@ -6,7 +6,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <div class="breadcrumbs"><a routerLink="/">Dashboard</a><span>/</span><span>{{ title }}</span></div>
-    <div class="tool-page-heading"><div><div class="eyebrow">DEBUGDOCK TOOL</div><h1>{{ title }}</h1><p>{{ description }}</p></div><span class="local-badge"><span class="status-dot"></span>Local processing</span></div>
+    <div class="tool-page-heading"><div><div class="eyebrow">ADMANDOCK TOOL</div><h1>{{ title }}</h1><p>{{ description }}</p></div><span class="local-badge"><span class="status-dot"></span>Local processing</span></div>
     <div class="tool-workspace">
       <div class="editor-column">
         <div class="editor-toolbar"><strong>Input</strong><span>Paste or import your content</span></div>

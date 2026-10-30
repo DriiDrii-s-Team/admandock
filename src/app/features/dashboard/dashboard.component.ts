@@ -8,7 +8,7 @@ import { I18nService } from '../../core/services/i18n.service';
   imports: [RouterLink],
   template: `
     <div class="welcome-row">
-      <div><div class="eyebrow">DEBUGDOCK / WORKSPACE</div><h1>{{ i18n.t('welcome') }}</h1><p>{{ i18n.t('subtitle') }}</p></div>
+      <div><div class="eyebrow">ADMANDOCK / WORKSPACE</div><h1>{{ i18n.t('welcome') }}</h1><p>{{ i18n.t('subtitle') }}</p></div>
       <div class="local-badge"><span class="status-dot"></span>{{ i18n.t('local') }}</div>
     </div>
     <div class="privacy-banner">
